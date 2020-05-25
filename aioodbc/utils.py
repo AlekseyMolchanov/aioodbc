@@ -79,8 +79,10 @@ class _ContextManager(Coroutine):
 
     async def __aexit__(self, exc_type, exc, tb):
         if exc_type:
-            await self._obj.rollback()
+            print(f'rollback: {exc_type}, {exc}, {tb}')
+            self._obj.rollback()
         elif not self._obj.autocommit:
+            print(f'commit: {exc_type}, {exc}, {tb}')
             await self._obj.commit()
         await self._obj.close()
         self._obj = None
